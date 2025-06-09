@@ -1,0 +1,27 @@
+{
+  "name": "scalable_url_shortener",
+  "version": "1.0.0",
+  "description": "Production-grade URL shortening service built using Node.js, MongoDB, Docker, Kubernetes, Prometheus, Grafana, and deployed on AWS with Terraform + Jenkins-based CI/CD pipeline.",
+  "license": "ISC",
+  "author": "gajjarvatsall",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+  "start": "node server.js",
+  "dev": "nodemon server.js"
+}
+,
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.15.1",
+    "nanoid": "^5.1.5",
+    "redis": "^5.5.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
