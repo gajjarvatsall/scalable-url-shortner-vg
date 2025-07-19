@@ -1,0 +1,25 @@
+replicaCount: 1
+
+image:
+  repository: gajjarvatsall/url-shortener
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+env:
+  PORT: 2004
+  MONGO_URI: mongodb://mongo:27017/urlShortener
+  REDIS_URL: redis://redis:6379
+  BASE_URL: http://localhost:2004
+  JWT_SECRET: supersecretkey
+
+mongo:
+  image: mongo
+  port: 27017
+
+redis:
+  image: redis
+  port: 6379
+
+service:
+  type: ClusterIP
+  port: 2004
