@@ -5,24 +5,48 @@ import urlRoutes from "./routes/url.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import cors from "cors";
 
-
 dotenv.config();
 const app = express();
+
+// Middleware
 app.use(express.json());
 
-// Log BASE_URL for debugging
-console.log("CORS BASE_URL:", process.env.BASE_URL);
+// CORS configuration
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || "http://localhost:3000",
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
 
-// For development, allow all origins (remove or restrict in production)
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors(corsOptions));
 
-
+// Connect to database
 connectDB();
 
+// Health check endpoint
+app.get("/api/health", (req, res) => {
+  res.json({ status: "OK", message: "URL Shortener API is running" });
+});
+
+// Routes
 app.use("/api/url", urlRoutes);
 app.use("/api/auth", authRoutes);
 
-app.listen(process.env.PORT, () =>
-  console.log(`Server running on port ${process.env.PORT}`)
-);
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: "Something went wrong!" });
+});
 
+// 404 handler
+app.use("*", (req, res) => {
+  res.status(404).json({ message: "Route not found" });
+});
+
+const PORT = process.env.PORT || 2004;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(
+    `📍 Frontend URL: ${process.env.FRONTEND_URL || "http://localhost:3000"}`
+  );
+});
